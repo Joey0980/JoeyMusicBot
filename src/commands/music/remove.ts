@@ -8,45 +8,32 @@ export default class extends Command {
     override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
         await interaction.deferReply();
 
-        let vol = interaction.options.get("volume")?.value as number;
-
         if (!validateMusicUser(interaction, true)) return;
 
-        if (vol > 100) {
-            await interaction.editReply({ embeds: [
-                {
-                    color: 0x780aff,
-                    description: m.volume_syntax
-                },
-            ]})
-            return;
-        }
-
-        await distube.getQueue(interaction.guild!.id)?.setVolume(vol);
+        await distube.stop(interaction.guild!.id);
 
         await interaction.editReply({ embeds: [
-            {
-                color: 0x780aff,
-                description: m.volume_set
-                    .replace("{volume}", vol.toString())
-                    .replace("{volumeEmoji}", vol > 55 ? "🔊" : "🔉")
-            },
-        ]})
+                {
+                    color: 0x780aff,
+                    description: m.cleared
+                },
+            ]})
+
     }
     override name(): string {
-        return "volume";
+        return "remove";
     }
 
     override description(): string {
-        return "Change the volume of the music";
+        return "Remove an entry from the queue. Use /queue to see the queue";
     }
 
     override options(): CommandOption[] {
         return [
             {
                 type: ApplicationCommandOptionType.Integer,
-                name: "volume",
-                description: "The volume",
+                name: "index",
+                description: "The index of the song to remove",
                 required: true
             }
         ];

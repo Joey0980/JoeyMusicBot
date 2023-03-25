@@ -4,6 +4,7 @@ import { validateMusicUser, getProgressBar } from "../../classes/Music";
 import strings from "../../assets/en_US.json" assert { type: "json" };
 let m = strings.sets.music
 let distube = Bot.distube!;
+
 export default class extends Command {
     override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
         await interaction.deferReply();
@@ -18,21 +19,18 @@ export default class extends Command {
             .setColor(0x780aff)
             .setTitle(m.nowplaying_embed_title)
             .setThumbnail(currentSong.thumbnail as string)
-            .setDescription(m.queue_embed_description
+            .setDescription(m.nowplaying_embed_description
                 .replaceAll('{currentSongName}', currentSong.name as string)
                 .replaceAll('{currentSongUrl}', currentSong.url as string)
-                .replaceAll("{currentSongFormattedDuration}", currentSong.formattedDuration as string)
+                .replaceAll('{currentSongFormattedDuration}', currentSong.formattedDuration as string)
             )
-
-
-        queueEmbed.addFields(
+            .addFields(
             {
                 name: m.queue_embed_progress,
-                value: `${queue.formattedCurrentTime} | ${getProgressBar(queue.currentTime, currentSong.duration)} | ${currentSong.formattedDuration}`,
+                value: currentSong.isLive ? m.live : `${queue.formattedCurrentTime} | ${getProgressBar(queue.currentTime, currentSong.duration)} | ${currentSong.formattedDuration}`,
                 inline: true
             }
         );
-
 
         await interaction.editReply({ embeds: [queueEmbed] });
     }
@@ -43,7 +41,7 @@ export default class extends Command {
     }
 
     override description(): string {
-        return "View the currently playinng song";
+        return "View the currently playing song";
     }
 
     override options(): CommandOption[] {

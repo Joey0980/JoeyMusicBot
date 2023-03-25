@@ -17,7 +17,7 @@ function validateMusicUser (interaction: CommandInteraction, checkForCurrentQueu
     let vc = interaction.member.voice.channel as VoiceChannel;
 
     if (!vc) {
-        interaction.editReply({embeds: [getRedEmbed(m.user_absent_vc)]});
+        interaction.editReply({embeds: [getRedEmbed(m.vc_user_absent)]});
         return false;
     }
 
@@ -29,7 +29,7 @@ function validateMusicUser (interaction: CommandInteraction, checkForCurrentQueu
     }
 
     if (vc.id !== interaction.guild!.members.me!.voice.channelId && interaction.guild!.members.me!.voice.channelId) {
-        interaction.editReply({embeds: [getRedEmbed(m.user_different_vc)]});
+        interaction.editReply({embeds: [getRedEmbed(m.vc_user_different)]});
         return false;
     }
     return true;

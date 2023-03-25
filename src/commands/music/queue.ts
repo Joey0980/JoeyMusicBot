@@ -13,17 +13,20 @@ export default class extends Command {
         const queue = distube.getQueue(interaction.guildId!);
 
         if (!queue || !queue.songs.length) {
-            interaction.editReply({ embeds: [
-                {
-                    color: 0x780aff,
-                    description: m.queue_empty
-                },
-            ]})
+            await interaction.editReply({
+                embeds: [
+                    {
+                        color: 0x780aff,
+                        description: m.queue_empty
+                    },
+                ]
+            })
             return;
         }
 
         const currentSong = queue.songs[0]!;
         const queueSongs = queue.songs.slice(1);
+
 
         const queueEmbed = new EmbedBuilder()
             .setColor(0x780aff)
@@ -32,7 +35,7 @@ export default class extends Command {
             .setDescription(m.queue_embed_description
                 .replaceAll('{currentSongName}', currentSong.name as string)
                 .replaceAll('{currentSongUrl}', currentSong.url as string)
-                .replaceAll("{currentSongFormattedDuration}", currentSong.formattedDuration as string)
+                .replaceAll('{currentSongFormattedDuration}', currentSong.formattedDuration as string)
             )
 
         if (queueSongs.length > 0) {
@@ -53,14 +56,21 @@ export default class extends Command {
 
         const queueLength = queueSongs.length + 1;
         queueEmbed.setFooter({
-            text: m.queue_embed_footer
+            text: queueSongs.length <= 1 && currentSong.isLive ?
+                m.queue_embed_footer_1
+                    .replaceAll('{queueLength}', queueLength.toString())
+                + m.live
+                : m.queue_embed_footer_1
                 .replaceAll('{queueLength}', queueLength.toString())
+                + m.queue_embed_footer_2
                 .replaceAll('{totalDuration}', queue.formattedDuration)
         });
 
+// m.queue_embed_footer_1 + m.queue_embed_footer_2
+//
+//
         await interaction.editReply({ embeds: [queueEmbed] });
     }
-
 
     override name(): string {
         return "queue";

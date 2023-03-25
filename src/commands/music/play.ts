@@ -13,9 +13,9 @@ export default class extends Command {
 
         try {
             await distube.play(vc, interaction.options.get("query")?.value as string);
-            let song = distube.getQueue(interaction.guildId!)?.songs.at(-1);
+            let song = distube.getQueue(interaction.guildId!)?.songs.at(-1)!;
             let footerTxt: string;
-            let queueLength: any = distube.getQueue(interaction.guildId!)?.songs.length;
+            let queueLength: any = distube.getQueue(interaction.guildId!)!.songs.length;
             if (queueLength == 1) {
                 footerTxt = m.added_queue_embed_footer_nextup;
                 queueLength = "";
@@ -27,15 +27,19 @@ export default class extends Command {
                 {
                     color: 0x780aff,
                     title: m.added_queue_embed_title,
-                    description: `**[${song!.name}](${song?.url})**\n[${song!.uploader.name}](${song!.uploader.url})`,
-                    thumbnail: {url: song!.thumbnail as string},
-                    footer: {text: `${song!.formattedDuration}  •  ${footerTxt}${queueLength}`},
+                    description: `**[${song.name}](${song.url})**\n[${song.uploader.name}](${song.uploader.url})`,
+                    thumbnail: {url: song.thumbnail as string},
+                    footer: {text: `${song.isLive? "🔴 " : ""}${song.formattedDuration}  •  ${footerTxt}${queueLength}`},
                 },
             ]})
         } catch (error) {
+            if (error instanceof Error) {
+                // await interaction.editReply({embeds: [getRedEmbed(m.search_age_restricted)]});
+                // return
+                await interaction.editReply({embeds: [getRedEmbed(m.search_no_results.replace("{searchQuery}", interaction.options.get("query")?.value as string))]});
+                return;
+            }
             console.log(error);
-            await interaction.editReply({embeds: [getRedEmbed(m.search_no_results.replace("{searchQuery}", interaction.options.get("query")?.value as string))]});
-            return;
         }
     }
     override name(): string {
