@@ -1,5 +1,5 @@
-import { Command, CommandOption, Bot } from "../../classes/Bot";
-import { CommandInteraction } from "discord.js";
+import { Command, CommandOption, Bot} from "../../classes/Bot";
+import {ApplicationCommandOptionType, CommandInteraction} from "discord.js";
 import {getRedEmbed, validateMusicUser,} from "../../classes/Music";
 import strings from "../../assets/en_US.json" assert { type: "json" };
 let m = strings.sets.music
@@ -15,7 +15,7 @@ export default class extends Command {
             await interaction.editReply({ embeds: [getRedEmbed(m.queue_empty)]})
             return;
         }
-        // here I want to return queue.songs, but remove the "formats" and "related" properties
+
         let jsonPre = queue.songs.map((song) => {
             let {formats, related, ...songPre} = song;
             return songPre;
@@ -77,6 +77,21 @@ export default class extends Command {
     }
 
     override options(): CommandOption[] {
-        return [];
+        return [
+            {
+                name: "test",
+                description: "test",
+                type: ApplicationCommandOptionType.String,
+                required: false,
+                choices: [
+                    { name: "test2", value: "test2" },
+                    { name: "test3", value: "test3" }
+                ]
+            }
+        ];
+    }
+
+    override DMUsable(): boolean {
+        return false;
     }
 }

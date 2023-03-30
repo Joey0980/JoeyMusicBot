@@ -21,7 +21,7 @@ export default class extends Command {
                 queueLength = "";
             } else {
                 footerTxt = m.added_queue_embed_footer;
-                queueLength = `(${queueLength})`;
+                queueLength = `(${queueLength - 1})`;
             }
             await interaction.editReply({embeds: [
                 {

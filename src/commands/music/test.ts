@@ -1,0 +1,20 @@
+import { Command, CommandOption, Bot } from "../../classes/Bot";
+import { CommandInteraction } from "discord.js";
+
+
+export default class extends Command {
+    override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
+        interaction.showModal(bot.getModal("test")!.build())
+    }
+    override name(): string {
+        return "test";
+    }
+
+    override description(): string {
+        return "sssssss";
+    }
+
+    override options(): CommandOption[] {
+        return []
+    }
+}

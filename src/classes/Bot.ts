@@ -10,7 +10,7 @@ import {
     CommandInteraction,
     ContextMenuCommandBuilder,
     ContextMenuCommandType,
-    MessageContextMenuCommandInteraction,
+    MessageContextMenuCommandInteraction, ModalBuilder, ModalSubmitInteraction,
     Routes,
     SlashCommandBuilder,
 } from "discord.js";
@@ -33,21 +33,35 @@ async function init(): Promise<void> {
 
         for (let option of command.options()) {
             switch (option.type) {
-                case ApplicationCommandOptionType.Attachment: { cmd.addAttachmentOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!)); break; }
-                case ApplicationCommandOptionType.Boolean: { cmd.addBooleanOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!)); break; }
-                case ApplicationCommandOptionType.Channel: { cmd.addChannelOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!)); break; }
-                case ApplicationCommandOptionType.Integer: { cmd.addIntegerOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!)); break; }
+                case ApplicationCommandOptionType.Attachment:  { cmd.addAttachmentOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!));  break; }
+                case ApplicationCommandOptionType.Boolean:     { cmd.addBooleanOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!));     break; }
+                case ApplicationCommandOptionType.Channel:     { cmd.addChannelOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!));     break; }
+                case ApplicationCommandOptionType.Integer:     { cmd.addIntegerOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!));     break; }
                 case ApplicationCommandOptionType.Mentionable: { cmd.addMentionableOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!)); break; }
-                case ApplicationCommandOptionType.Role: { cmd.addRoleOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!)); break; }
-                case ApplicationCommandOptionType.String: { cmd.addStringOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!)); break; }
-                case ApplicationCommandOptionType.User: { cmd.addUserOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!)); break; }
+                case ApplicationCommandOptionType.Role:        { cmd.addRoleOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!));        break; }
+                case ApplicationCommandOptionType.User:        { cmd.addUserOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!));        break; }
+                case ApplicationCommandOptionType.String: {
+                    if (option.choices) {
+                        cmd.addStringOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!).addChoices(...<[]>option.choices));
+                    }
+                    else {
+                        cmd.addStringOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required!));
+                    }
+                    break;
+                }
                 default: break;
             }
+
         }
+
+        if (command.DMUsable) {
+            cmd.setDMPermission(true);
+        }
+
         commands.push(cmd);
     }
 
-    let registrars = commands.map(command => command.toJSON());
+    let registrars: any = commands.map(command => command.toJSON());
     console.log(`Successfully registered ${commands.length} commands.`);
 
     const menuObjects: MessageMenu[] = await getMenus();
@@ -57,10 +71,12 @@ async function init(): Promise<void> {
         menus.push(new ContextMenuCommandBuilder().setName(menu.name()).setType(menu.type()));
     }
 
-    //registrars = registrars.concat(menus.map(menu => menu.toJSON()));
+    registrars = menus.map(menu => menu.toJSON()).concat(registrars)
+
     console.log(`Successfully registered ${menus.length} message menus.`);
 
     await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.GUILD_ID!), { body: registrars });
+
 } init()
 
 
@@ -68,7 +84,6 @@ async function getCommands(): Promise<Command[]> {
     let commands: Command[] = [];
 
     for (let file of fs.readdirSync(`./src/commands/`).filter(file => file.endsWith(".ts"))) {
-
         let imports = await import(`../commands/${file}`);
 
         let command = new imports.default();
@@ -111,19 +126,38 @@ async function getButtons(): Promise<Button[]> {
     return buttons;
 }
 
+async function getModals(): Promise<Modal[]> {
+    let modals: Modal[] = [];
+
+    for (let file of fs.readdirSync("./src/modals/").filter(file => file.endsWith(".ts"))) {
+        let imports = await import(`../modals/${file}`);
+
+        let modal = new imports.default();
+        modals.push(modal);
+    }
+    return modals;
+}
+
+
 export interface CommandOption {
+
     type: ApplicationCommandOptionType
     name: string;
     description: string;
     required?: boolean;
     options?: CommandOption[];
+    choices?: {
+        name: string, value: string
+    }[];
 }
+
 
 export abstract class Command {
     abstract run(interaction: CommandInteraction, bot: Bot): Promise<void>;
 
     abstract name(): string;
     abstract description(): string;
+    DMUsable?(): boolean { return false; }
     options(): CommandOption[] { return []; }
 }
 
@@ -141,6 +175,13 @@ export abstract class Button {
     abstract id(): string;
 }
 
+export abstract class Modal {
+    abstract run(interaction: ModalSubmitInteraction, bot: Bot): Promise<void>;
+    abstract name(): string;
+
+    abstract build(): ModalBuilder;
+    abstract id(): string;
+}
 export class Bot {
 
 
@@ -182,6 +223,14 @@ export class Bot {
                     await button.run(interaction, this);
                 } else {
                     await interaction.reply("Button not found");
+                }
+            } else if (interaction.isModalSubmit()) {
+                const modal: Undefinable<Modal> = this.modals.find(modal => modal.id() === interaction.customId);
+                // ok we need to fix the modal submit being not found aight
+                if (modal) {
+                    await modal.run(interaction, this);
+                } else {
+                    await interaction.reply("Modal not found");
                 }
             }
         });
@@ -230,20 +279,21 @@ export class Bot {
         this.commands = await getCommands();
         this.msgmenus = await getMenus();
         this.buttons = await getButtons();
+        this.modals = await getModals();
     }
 
     getButton(id: string): Undefinable<Button> {
         return this.buttons.find(button => button.id() === id);
     }
 
-
+    getModal (id: string): Undefinable<Modal> {
+        return this.modals.find(modal => modal.id() === id);
+    }
 
     client: Client;
     static distube: DisTube | undefined;
     commands: Command[] = [];
     msgmenus: MessageMenu[] = [];
     buttons: Button[] = [];
-
-
-
+    modals: Modal[] = [];
 }

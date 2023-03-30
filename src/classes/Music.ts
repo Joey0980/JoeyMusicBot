@@ -34,6 +34,7 @@ function validateMusicUser (interaction: CommandInteraction, checkForCurrentQueu
     }
     return true;
 }
+
 function getProgressBar(currentTime: number, duration: number ): string {
     const progress = currentTime / duration;
     const progressBar = new Array(10).fill('▬');
@@ -43,17 +44,5 @@ function getProgressBar(currentTime: number, duration: number ): string {
     }
     return progressBar.join('');
 }
-// @ts-expect-error
-const status = (queue:any) =>
-    `Volume: \`${queue.volume}%\` | Filter: \`${
-        queue.filters.join(', ') || 'Off'
-    }\` | Loop: \`${
-        queue.repeatMode
-            ? queue.repeatMode === 2
-                ? 'All Queue'
-                : 'This Song'
-            : 'Off'
-    }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
-
 
 export { getRedEmbed, validateMusicUser, getProgressBar };

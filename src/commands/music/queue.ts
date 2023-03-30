@@ -40,8 +40,8 @@ export default class extends Command {
 
         if (queueSongs.length > 0) {
             const songList = queueSongs.map((song, index) => `[${index + 1}. ${song.name}](${song.url}) (${song.formattedDuration})`);
-            if (songList.length > 8) {
-                songList.length = 8;
+            if (songList.length > 10) {
+                songList.length = 10;
                 songList.push(m.queue_embed_toomany);
             }
             queueEmbed.addFields(

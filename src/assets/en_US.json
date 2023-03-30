@@ -19,7 +19,6 @@
 
       "finished": "Finished playing the queue. \uD83D\uDCA0",
       "cleared": "\uD83D\uDDD1️✅ Cleared the queue.",
-      "removed": "\uD83D\uDDD1️✅ Removed entry {index} from the queue.",
 
       "previous": "⏪ Playing the previous song.",
       "no_previous": "⏪ There is no previous song to play.",
@@ -28,7 +27,7 @@
       "queue_empty": "\uD83D\uDEAB The queue is empty. ",
       "queue_embed_title": "Music Queue",
       "queue_embed_description": "Now Playing:\n[{currentSongName}]({currentSongUrl}) ({currentSongFormattedDuration})",
-      "queue_embed_toomany": "Only showing the first 8 songs.",
+      "queue_embed_toomany": "\n**``Only showing the first 10 songs.``**",
       "queue_embed_upnexttitle": "Up Next",
       "queue_embed_footer_1": "{queueLength} songs in queue  •  ",
       "queue_embed_footer_2": "{totalDuration} total duration",
@@ -51,12 +50,20 @@
       "shuffled": "\uD83D\uDD00 Successfully shuffled the queue. ✅",
       "shuffle_too_few": "❌ You need at least 3 songs in the queue to shuffle.",
 
-      "export_error": "⚠️ Error exporting the queue. Please ensure you have DMs enabled in this server.",
+      "export_error": "⚠️ Error exporting. Please ensure you have DMs enabled in this server.",
       "export_success": "✅ Successfully exported the queue. Check your DMs.",
       "export_embed_title": "Queue Export Data",
       "export_embed_guild": "Server",
       "export_embed_shard": "ShardId",
-      "export_embed_date": "Date"
+      "export_embed_date": "Date",
+
+      "remove_invalid" : "❌ Invalid index.",
+      "remove_success" : "✅\uD83D\uDDD1 Removed {song} at index {index} from the queue.",
+
+      "filter_embed_title": "Currently available filters",
+      "filter_invalid": "❌ Invalid filter. Please use the filter command without any arguments to see a list of available filters.",
+      "filter_off": "✅ Disabled all filters!",
+      "filter_applied": "✅ Applied filter."
     }
   }
 }
