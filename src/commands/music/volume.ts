@@ -3,7 +3,7 @@ import {ApplicationCommandOptionType, CommandInteraction} from "discord.js";
 import { validateMusicUser,} from "../../classes/Music";
 import strings from "../../assets/en_US.json" assert { type: "json" };
 let m = strings.sets.music
-let distube = Bot.distube!;
+
 export default class extends Command {
     override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
         await interaction.deferReply();
@@ -22,7 +22,7 @@ export default class extends Command {
             return;
         }
 
-        await distube.getQueue(interaction.guild!.id)?.setVolume(vol);
+        await Bot.distube!.getQueue(interaction.guild!.id)?.setVolume(vol);
 
         await interaction.editReply({ embeds: [
             {

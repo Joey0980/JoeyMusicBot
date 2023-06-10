@@ -7,7 +7,7 @@
       "playing_song": "Now playing: {song} \uD83C\uDFB6",
       "stopped": "⏹️ Stopped the player.",
       "skipped": "⏭️ Skipped the current song.",
-      "paused": "⏸️ Paused the player.",
+      "paused": "⏸️ Paused the player. Use /pause again to resume.",
       "unpaused": "▶️ Resumed the player.",
       "search_no_results": "❓ No results found: \n```{searchQuery}```",
       "search_age_restricted": "\uD83D\uDCA2❌ This video is age restricted and cannot be played in a non-nsfw channel.",
@@ -43,6 +43,7 @@
       "joined": "✅ Joined the voice channel.",
       "already_joined": "\uD83D\uDCA2 I am already in a voice channel!",
       "left": "⏏️ Left the voice channel.",
+      "could_not_join": "❌ I could not join the voice channel. Please ensure I have the required permissions to join and speak in the channel.",
 
       "volume_set": "{volumeEmoji} Set the volume to {volume}.",
       "volume_syntax": "‼️ The volume cannot be higher than 100.",
@@ -63,7 +64,10 @@
       "filter_embed_title": "Currently available filters",
       "filter_invalid": "❌ Invalid filter. Please use the filter command without any arguments to see a list of available filters.",
       "filter_off": "✅ Disabled all filters!",
-      "filter_applied": "✅ Applied filter."
+      "filter_applied": "✅ Applied filter.",
+
+      "seeked": "⏩ Skipped to {time}.",
+      "seeked_invalid": "❌ Invalid time."
     }
   }
 }

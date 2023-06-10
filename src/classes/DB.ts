@@ -1,9 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
-export class DB extends PrismaClient {
-    constructor() {
-        super();
-    }
+export class DB {
 }
 
 export { prisma };

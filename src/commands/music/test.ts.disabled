@@ -4,7 +4,7 @@ import { CommandInteraction } from "discord.js";
 
 export default class extends Command {
     override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
-        interaction.showModal(bot.getModal("test")!.build())
+        await interaction.showModal(bot.getModal("test")!.build())
     }
     override name(): string {
         return "test";

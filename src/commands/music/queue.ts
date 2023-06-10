@@ -3,14 +3,13 @@ import {CommandInteraction, EmbedBuilder} from "discord.js";
 import { validateMusicUser, getProgressBar } from "../../classes/Music";
 import strings from "../../assets/en_US.json" assert { type: "json" };
 let m = strings.sets.music
-let distube = Bot.distube!;
 export default class extends Command {
     override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
         await interaction.deferReply();
 
         if (!validateMusicUser(interaction, true)) return;
 
-        const queue = distube.getQueue(interaction.guildId!);
+        const queue = Bot.distube!.getQueue(interaction.guildId!);
 
         if (!queue || !queue.songs.length) {
             await interaction.editReply({
@@ -37,13 +36,13 @@ export default class extends Command {
                 .replaceAll('{currentSongUrl}', currentSong.url as string)
                 .replaceAll('{currentSongFormattedDuration}', currentSong.formattedDuration as string)
             )
-
         if (queueSongs.length > 0) {
             const songList = queueSongs.map((song, index) => `[${index + 1}. ${song.name}](${song.url}) (${song.formattedDuration})`);
             if (songList.length > 10) {
                 songList.length = 10;
                 songList.push(m.queue_embed_toomany);
             }
+            console.log(songList.join('\n'));
             queueEmbed.addFields(
                 { name: m.queue_embed_upnexttitle, value: songList.join('\n') },
                 {

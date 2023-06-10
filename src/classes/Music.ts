@@ -11,6 +11,13 @@ function getRedEmbed (description: string) {
     })
 }
 
+function getPurpleEmbed (description: string) {
+    return new EmbedBuilder({
+        color: 0x780aff,
+        description: description
+    })
+}
+
 
 function validateMusicUser (interaction: CommandInteraction, checkForCurrentQueue?: boolean) {
     interaction.member = interaction.member as GuildMember;
@@ -45,4 +52,4 @@ function getProgressBar(currentTime: number, duration: number ): string {
     return progressBar.join('');
 }
 
-export { getRedEmbed, validateMusicUser, getProgressBar };
+export { getRedEmbed, getPurpleEmbed, validateMusicUser, getProgressBar };

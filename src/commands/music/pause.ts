@@ -3,16 +3,15 @@ import { CommandInteraction } from "discord.js";
 import { validateMusicUser,} from "../../classes/Music";
 import strings from "../../assets/en_US.json" assert { type: "json" };
 let m = strings.sets.music
-let distube = Bot.distube!;
 export default class extends Command {
     override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
         await interaction.deferReply();
 
         if (!validateMusicUser(interaction, true)) return;
-        let paused = distube.getQueue(interaction.guild!.id)?.paused;
+        let paused = Bot.distube!.getQueue(interaction.guild!.id)?.paused;
 
-        if (paused) await distube.resume(interaction.guild!.id);
-            else distube.pause(interaction.guild!.id);
+        if (paused) await Bot.distube!.resume(interaction.guild!.id);
+            else Bot.distube!.pause(interaction.guild!.id);
 
         await interaction.editReply({ embeds: [
                 {

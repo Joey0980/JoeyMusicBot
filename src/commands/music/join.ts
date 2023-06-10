@@ -3,7 +3,7 @@ import {CommandInteraction, GuildMember, VoiceChannel} from "discord.js";
 import {getRedEmbed, validateMusicUser,} from "../../classes/Music";
 import strings from "../../assets/en_US.json" assert { type: "json" };
 let m = strings.sets.music
-let distube = Bot.distube!;
+
 export default class extends Command {
     override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
         await interaction.deferReply();
@@ -12,14 +12,19 @@ export default class extends Command {
         interaction.member = interaction.member as GuildMember;
         let vc = interaction.member.voice.channel as VoiceChannel;
 
-        let distube_vc = distube.voices.get(interaction.guild!.id);
+        let distube_vc = Bot.distube!.voices.get(interaction.guild!.id);
 
         if (distube_vc /* &&  distube_vc.channel.id == vc.id */) {
             await interaction.editReply({ embeds: [getRedEmbed(m.already_joined)]})
             return;
         }
 
-        await distube.voices.join(vc);
+        try {
+            await Bot.distube!.voices.join(vc);
+        } catch (e) {
+            await interaction.editReply({ embeds: [getRedEmbed(m.could_not_join)]})
+            return;
+        }
 
         await interaction.editReply({ embeds: [
                 {

@@ -5,7 +5,7 @@ import {
     ModalBuilder,
     ModalSubmitInteraction,
     TextInputBuilder,
-    TextInputStyle
+    TextInputStyle,
 } from "discord.js";
 
 export default class extends Modal {
@@ -13,7 +13,8 @@ export default class extends Modal {
         await interaction.reply({
             embeds: [
                 {
-                    title: "Modal Submitted!"
+                    title: "Modal Submitted!",
+                    description: "Here's what you typed!\n" + interaction.fields.getTextInputValue("test1")
                 }
             ]
         });
@@ -29,16 +30,17 @@ export default class extends Modal {
 
     override build(): ModalBuilder {
          return new ModalBuilder()
-            .setCustomId('myModal')
-            .setTitle('My Modal')
+            .setCustomId(this.id())
+            .setTitle(this.name())
             .addComponents(
                 new ActionRowBuilder<ModalActionRowComponentBuilder>()
                     .addComponents(
                         new TextInputBuilder()
-                            .setCustomId('test1')
-                            .setLabel("aaaaa")
-                            .setValue("aaaaa")
+                            .setCustomId("test1")
+                            .setLabel("type something")
+                            .setValue("something!!!")
                             .setStyle(TextInputStyle.Short)
+                            .setRequired(true)
                     )
             )
     }

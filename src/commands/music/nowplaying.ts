@@ -3,7 +3,6 @@ import {CommandInteraction, EmbedBuilder} from "discord.js";
 import { validateMusicUser, getProgressBar } from "../../classes/Music";
 import strings from "../../assets/en_US.json" assert { type: "json" };
 let m = strings.sets.music
-let distube = Bot.distube!;
 
 export default class extends Command {
     override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
@@ -11,9 +10,9 @@ export default class extends Command {
 
         if (!validateMusicUser(interaction, true)) return;
 
-        const queue = distube.getQueue(interaction.guildId!)!;
+        const queue = Bot.distube!.getQueue(interaction.guildId!)!;
 
-        let currentSong = queue.songs.at(-1)!;
+        let currentSong = queue.songs.at(0)!;
 
         const queueEmbed = new EmbedBuilder()
             .setColor(0x780aff)
@@ -31,10 +30,8 @@ export default class extends Command {
                 inline: true
             }
         );
-
         await interaction.editReply({ embeds: [queueEmbed] });
     }
-
 
     override name(): string {
         return "nowplaying";

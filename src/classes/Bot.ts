@@ -74,8 +74,11 @@ async function init(): Promise<void> {
     registrars = menus.map(menu => menu.toJSON()).concat(registrars)
 
     console.log(`Successfully registered ${menus.length} message menus.`);
-
-    await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.GUILD_ID!), { body: registrars });
+    if (process.env.GUILD_ID) {
+        await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID as never, process.env.GUILD_ID as never), {body: registrars});
+    } else {
+        await rest.put(Routes.applicationCommands(process.env.CLIENT_ID as never), {body: registrars});
+    }
 
 } init()
 
@@ -161,6 +164,7 @@ export abstract class Command {
     options(): CommandOption[] { return []; }
 }
 
+
 export abstract class MessageMenu {
     abstract run(interaction: MessageContextMenuCommandInteraction, bot: Bot): Promise<void>;
 
@@ -183,8 +187,6 @@ export abstract class Modal {
     abstract id(): string;
 }
 export class Bot {
-
-
     constructor(token: string, intents: ClientOptions, status: string) {
         this.client = new Client(intents);
 
@@ -195,15 +197,6 @@ export class Bot {
                 const command: Undefinable<Command> = this.commands.find(command => command.name() === interaction.commandName);
 
                 if (command) {
-                    // if (interaction.options.getSubcommand()) {
-                    //     const subcommand: Undefinable<Command> = this.commands.find(command => command.name() === interaction.options.getSubcommand());
-                    //
-                    //     if (subcommand) {
-                    //         await command.run(interaction, this).then(() => subcommand.run(interaction, this));
-                    //     } else {
-                    //         await interaction.reply("Subcommand not found");
-                    //     }
-                    // }
                     await command.run(interaction, this);
                 } else {
                     await interaction.reply("Command not found");
@@ -226,7 +219,7 @@ export class Bot {
                 }
             } else if (interaction.isModalSubmit()) {
                 const modal: Undefinable<Modal> = this.modals.find(modal => modal.id() === interaction.customId);
-                // ok we need to fix the modal submit being not found aight
+
                 if (modal) {
                     await modal.run(interaction, this);
                 } else {
@@ -296,4 +289,5 @@ export class Bot {
     msgmenus: MessageMenu[] = [];
     buttons: Button[] = [];
     modals: Modal[] = [];
+    static dj: Map<string, { roles: string[], users: string[], enabled: boolean }> = new Map();
 }

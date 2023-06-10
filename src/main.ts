@@ -1,7 +1,7 @@
 import { Bot } from './classes/Bot';
 
 new Bot(process.env.TOKEN as never,
-    {intents: [
+    { intents: [
             "GuildMessages",
             "Guilds",
             "GuildMessageReactions",

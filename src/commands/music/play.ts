@@ -3,7 +3,7 @@ import {CommandInteraction, ApplicationCommandOptionType, GuildMember, VoiceChan
 import {validateMusicUser, getRedEmbed,} from "../../classes/Music";
 import strings from "../../assets/en_US.json" assert { type: "json" };
 let m = strings.sets.music
-let distube = Bot.distube!;
+
 export default class extends Command {
     override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
         await interaction.deferReply();
@@ -12,10 +12,10 @@ export default class extends Command {
         let vc = interaction.member.voice.channel as VoiceChannel
 
         try {
-            await distube.play(vc, interaction.options.get("query")?.value as string);
-            let song = distube.getQueue(interaction.guildId!)?.songs.at(-1)!;
+            await Bot.distube!.play(vc, interaction.options.get("query")?.value as string);
+            let song = Bot.distube!.getQueue(interaction.guildId!)?.songs.slice(-1)[0]!;
             let footerTxt: string;
-            let queueLength: any = distube.getQueue(interaction.guildId!)!.songs.length;
+            let queueLength: any = Bot.distube!.getQueue(interaction.guildId!)!.songs.length;
             if (queueLength == 1) {
                 footerTxt = m.added_queue_embed_footer_nextup;
                 queueLength = "";
@@ -28,8 +28,8 @@ export default class extends Command {
                     color: 0x780aff,
                     title: m.added_queue_embed_title,
                     description: `**[${song.name}](${song.url})**\n[${song.uploader.name}](${song.uploader.url})`,
-                    thumbnail: {url: song.thumbnail as string},
-                    footer: {text: `${song.isLive? "🔴 " : ""}${song.formattedDuration}  •  ${footerTxt}${queueLength}`},
+                    thumbnail: { url: song.thumbnail as string },
+                    footer: { text: `${song.isLive? "🔴 " : ""}${song.formattedDuration}  •  ${footerTxt}${queueLength}` },
                 },
             ]})
         } catch (error) {

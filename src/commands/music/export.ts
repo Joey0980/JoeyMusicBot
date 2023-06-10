@@ -3,14 +3,14 @@ import {ApplicationCommandOptionType, CommandInteraction} from "discord.js";
 import {getRedEmbed, validateMusicUser,} from "../../classes/Music";
 import strings from "../../assets/en_US.json" assert { type: "json" };
 let m = strings.sets.music
-let distube = Bot.distube!;
+
 export default class extends Command {
     override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
         await interaction.deferReply();
 
         if (!validateMusicUser(interaction, true)) return;
 
-        let queue = distube.getQueue(interaction.guild!.id);
+        let queue = Bot.distube!.getQueue(interaction.guild!.id);
         if (!queue) {
             await interaction.editReply({ embeds: [getRedEmbed(m.queue_empty)]})
             return;
