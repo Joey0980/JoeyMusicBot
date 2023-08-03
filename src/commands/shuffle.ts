@@ -1,20 +1,20 @@
-import { Command, CommandOption, Bot } from "../../classes/Bot";
-import { CommandInteraction } from "discord.js";
-import { validateMusicUser,} from "../../classes/Music";
-import strings from "../../assets/en_US.json" assert { type: "json" };
-let m = strings.sets.music
+import {Command, CommandOption, Bot, CommandPermissions} from "../classes/Bot";
+import {ChatInputCommandInteraction} from "discord.js";
+import { validateMusicUser,} from "../classes/Music";
+import i18nInterface from "../i18n/i18nInterface";
+
 export default class extends Command {
-    override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
+    override async run(interaction: ChatInputCommandInteraction, bot: Bot,  i18n: i18nInterface): Promise<void> {
         await interaction.deferReply();
 
-        if (!validateMusicUser(interaction, true)) return;
+        if (!validateMusicUser(interaction, i18n, true)) return;
 
         if (Bot.distube!.getQueue(interaction.guild!.id)!.songs.length < 3) {
             await interaction.editReply({
                 embeds: [
                     {
                         color: 0x780aff,
-                        description: m.shuffle_too_few
+                        description:  i18n.default.shuffle_too_few
                     },
                 ]
             })
@@ -24,7 +24,7 @@ export default class extends Command {
             await interaction.editReply({ embeds: [
                 {
                     color: 0x780aff,
-                    description: m.shuffled
+                    description:  i18n.default.shuffled
                 },
             ]})
         }
@@ -39,5 +39,12 @@ export default class extends Command {
 
     override options(): CommandOption[] {
         return [];
+    }
+
+    override permissions(): CommandPermissions {
+        return {
+            dmUsable: false,
+            DJRole: true,
+        }
     }
 }

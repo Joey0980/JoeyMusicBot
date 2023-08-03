@@ -1,18 +1,17 @@
-import { Command, CommandOption, Bot} from "../../classes/Bot";
-import {ApplicationCommandOptionType, CommandInteraction} from "discord.js";
-import {getRedEmbed, validateMusicUser,} from "../../classes/Music";
-import strings from "../../assets/en_US.json" assert { type: "json" };
-let m = strings.sets.music
+import {Command, CommandOption, Bot, CommandPermissions} from "../classes/Bot";
+import {ApplicationCommandOptionType, ChatInputCommandInteraction} from "discord.js";
+import {getRedEmbed, validateMusicUser,} from "../classes/Music";
+import i18nInterface from "../i18n/i18nInterface";
 
 export default class extends Command {
-    override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
+    override async run(interaction: ChatInputCommandInteraction, bot: Bot,  i18n: i18nInterface): Promise<void> {
         await interaction.deferReply();
 
-        if (!validateMusicUser(interaction, true)) return;
+        if (!validateMusicUser(interaction, i18n, true)) return;
 
         let queue = Bot.distube!.getQueue(interaction.guild!.id);
         if (!queue) {
-            await interaction.editReply({ embeds: [getRedEmbed(m.queue_empty)]})
+            await interaction.editReply({ embeds: [getRedEmbed( i18n.default.queue_empty)]})
             return;
         }
 
@@ -29,19 +28,19 @@ export default class extends Command {
                 embeds: [
                 {
                     color: 0x780aff,
-                    title: m.export_embed_title,
+                    title:  i18n.default.export_embed_title,
                     url: interaction.channel!.url,
                     fields: [
                         {
-                            name: m.export_embed_guild,
+                            name:  i18n.default.export_embed_guild,
                             value: `${interaction.guild!.name} (${interaction.guild!.id})`,
                         },
                         {
-                            name: m.export_embed_shard,
+                            name:  i18n.default.export_embed_shard,
                             value: interaction.guild!.shardId.toString(),
                         },
                         {
-                            name: m.export_embed_date,
+                            name:  i18n.default.export_embed_date,
                             value: new Date().toLocaleString(),
                         }
                     ]
@@ -56,7 +55,7 @@ export default class extends Command {
                 ]
             })
         } catch (e) {
-            await interaction.editReply({ embeds: [getRedEmbed(m.export_error)]})
+            await interaction.editReply({ embeds: [getRedEmbed( i18n.default.export_error)]})
             return;
         }
 
@@ -64,7 +63,7 @@ export default class extends Command {
             embeds: [
                 {
                     color: 0x780aff,
-                    description: m.export_success
+                    description:  i18n.default.export_success
                 },
         ]})
     }
@@ -91,7 +90,10 @@ export default class extends Command {
         ];
     }
 
-    override DMUsable(): boolean {
-        return false;
+    override permissions(): CommandPermissions {
+        return {
+            dmUsable: false,
+            adminPermissionBypass: true
+        }
     }
 }

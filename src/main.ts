@@ -1,4 +1,5 @@
 import { Bot } from './classes/Bot';
+import { ActivityType } from 'discord.js';
 
 new Bot(process.env.TOKEN as never,
     { intents: [
@@ -8,6 +9,7 @@ new Bot(process.env.TOKEN as never,
             "MessageContent",
             "GuildVoiceStates"
         ]},
-    "music");
+    "online",
+    { type: ActivityType.Playing, name: "music" });
 
 Reflect.deleteProperty(process.env, 'TOKEN');

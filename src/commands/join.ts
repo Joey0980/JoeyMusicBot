@@ -1,35 +1,34 @@
-import { Command, CommandOption, Bot } from "../../classes/Bot";
-import {CommandInteraction, GuildMember, VoiceChannel} from "discord.js";
-import {getRedEmbed, validateMusicUser,} from "../../classes/Music";
-import strings from "../../assets/en_US.json" assert { type: "json" };
-let m = strings.sets.music
+import {Command, CommandOption, Bot, CommandPermissions} from "../classes/Bot";
+import {ChatInputCommandInteraction, GuildMember, VoiceChannel} from "discord.js";
+import {getRedEmbed, validateMusicUser,} from "../classes/Music";
+import i18nInterface from "../i18n/i18nInterface";
 
 export default class extends Command {
-    override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
+    override async run(interaction: ChatInputCommandInteraction, bot: Bot,  i18n: i18nInterface): Promise<void> {
         await interaction.deferReply();
 
-        if (!validateMusicUser(interaction, false)) return;
+        if (!validateMusicUser(interaction, i18n, false)) return;
         interaction.member = interaction.member as GuildMember;
         let vc = interaction.member.voice.channel as VoiceChannel;
 
         let distube_vc = Bot.distube!.voices.get(interaction.guild!.id);
 
         if (distube_vc /* &&  distube_vc.channel.id == vc.id */) {
-            await interaction.editReply({ embeds: [getRedEmbed(m.already_joined)]})
+            await interaction.editReply({ embeds: [getRedEmbed( i18n.default.already_joined)]})
             return;
         }
 
         try {
             await Bot.distube!.voices.join(vc);
         } catch (e) {
-            await interaction.editReply({ embeds: [getRedEmbed(m.could_not_join)]})
+            await interaction.editReply({ embeds: [getRedEmbed( i18n.default.could_not_join)]})
             return;
         }
 
         await interaction.editReply({ embeds: [
                 {
                     color: 0x780aff,
-                    description: m.joined
+                    description:  i18n.default.joined
                 },
             ]})
     }
@@ -43,5 +42,12 @@ export default class extends Command {
 
     override options(): CommandOption[] {
         return [];
+    }
+
+    override permissions(): CommandPermissions {
+        return {
+            dmUsable: false,
+            adminPermissionBypass: true
+        }
     }
 }

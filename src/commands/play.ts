@@ -1,13 +1,17 @@
-import { Command, CommandOption, Bot } from "../../classes/Bot";
-import {CommandInteraction, ApplicationCommandOptionType, GuildMember, VoiceChannel} from "discord.js";
-import {validateMusicUser, getRedEmbed,} from "../../classes/Music";
-import strings from "../../assets/en_US.json" assert { type: "json" };
-let m = strings.sets.music
+import {Command, CommandOption, Bot, CommandPermissions} from "../classes/Bot";
+import {
+    ApplicationCommandOptionType,
+    GuildMember,
+    VoiceChannel,
+    ChatInputCommandInteraction
+} from "discord.js";
+import {validateMusicUser, getRedEmbed,} from "../classes/Music";
+import i18nInterface from "../i18n/i18nInterface";
 
 export default class extends Command {
-    override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
+    override async run(interaction: ChatInputCommandInteraction, bot: Bot,  i18n: i18nInterface): Promise<void> {
         await interaction.deferReply();
-        if (!validateMusicUser(interaction, false)) return;
+        if (!validateMusicUser(interaction, i18n, false)) return;
         interaction.member = interaction.member as GuildMember;
         let vc = interaction.member.voice.channel as VoiceChannel
 
@@ -17,16 +21,16 @@ export default class extends Command {
             let footerTxt: string;
             let queueLength: any = Bot.distube!.getQueue(interaction.guildId!)!.songs.length;
             if (queueLength == 1) {
-                footerTxt = m.added_queue_embed_footer_nextup;
+                footerTxt =  i18n.default.added_queue_embed_footer_nextup;
                 queueLength = "";
             } else {
-                footerTxt = m.added_queue_embed_footer;
+                footerTxt =  i18n.default.added_queue_embed_footer;
                 queueLength = `(${queueLength - 1})`;
             }
             await interaction.editReply({embeds: [
                 {
                     color: 0x780aff,
-                    title: m.added_queue_embed_title,
+                    title:  i18n.default.added_queue_embed_title,
                     description: `**[${song.name}](${song.url})**\n[${song.uploader.name}](${song.uploader.url})`,
                     thumbnail: { url: song.thumbnail as string },
                     footer: { text: `${song.isLive? "🔴 " : ""}${song.formattedDuration}  •  ${footerTxt}${queueLength}` },
@@ -34,9 +38,9 @@ export default class extends Command {
             ]})
         } catch (error) {
             if (error instanceof Error) {
-                // await interaction.editReply({embeds: [getRedEmbed(m.search_age_restricted)]});
+                // await interaction.editReply({embeds: [getRedEmbed( i18n.default.search_age_restricted)]});
                 // return
-                await interaction.editReply({embeds: [getRedEmbed(m.search_no_results.replace("{searchQuery}", interaction.options.get("query")?.value as string))]});
+                await interaction.editReply({embeds: [getRedEmbed( i18n.default.search_no_results.replace("{searchQuery}", interaction.options.get("query")?.value as string))]});
                 return;
             }
             console.log(error);
@@ -59,6 +63,14 @@ export default class extends Command {
                 required: true
             }
         ];
+    }
+
+    override permissions(): CommandPermissions {
+        return {
+            dmUsable: false,
+            DJRole: false,
+            adminPermissionBypass: true
+        }
     }
 }
 

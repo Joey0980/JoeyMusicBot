@@ -1,22 +1,21 @@
-import { Command, CommandOption, Bot } from "../../classes/Bot";
-import {ApplicationCommandOptionType, CommandInteraction} from "discord.js";
-import { validateMusicUser,} from "../../classes/Music";
-import strings from "../../assets/en_US.json" assert { type: "json" };
-let m = strings.sets.music
+import {Command, CommandOption, Bot, CommandPermissions} from "../classes/Bot";
+import {ApplicationCommandOptionType, ChatInputCommandInteraction} from "discord.js";
+import { validateMusicUser,} from "../classes/Music";
+import i18nInterface from "../i18n/i18nInterface";
 
 export default class extends Command {
-    override async run(interaction: CommandInteraction, bot: Bot): Promise<void> {
+    override async run(interaction: ChatInputCommandInteraction, bot: Bot,  i18n: i18nInterface): Promise<void> {
         await interaction.deferReply();
 
         let vol = interaction.options.get("volume")?.value as number;
 
-        if (!validateMusicUser(interaction, true)) return;
+        if (!validateMusicUser(interaction, i18n, true)) return;
 
         if (vol > 100) {
             await interaction.editReply({ embeds: [
                 {
                     color: 0x780aff,
-                    description: m.volume_syntax
+                    description:  i18n.default.volume_syntax
                 },
             ]})
             return;
@@ -27,7 +26,7 @@ export default class extends Command {
         await interaction.editReply({ embeds: [
             {
                 color: 0x780aff,
-                description: m.volume_set
+                description:  i18n.default.volume_set
                     .replace("{volume}", vol.toString())
                     .replace("{volumeEmoji}", vol > 55 ? "🔊" : "🔉")
             },
@@ -50,5 +49,13 @@ export default class extends Command {
                 required: true
             }
         ];
+    }
+
+    override permissions(): CommandPermissions {
+        return {
+            dmUsable: false,
+            DJRole: true,
+            adminPermissionBypass: true,
+        }
     }
 }
