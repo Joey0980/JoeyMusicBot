@@ -59,7 +59,7 @@ export default interface i18n {
         left: string,
         could_not_join: string,
 
-        volume_set: string ,
+        volume_set: string,
         volume_syntax: string,
 
         shuffled: string,
@@ -97,16 +97,16 @@ export default interface i18n {
         dj_role_list_preamble: string,
 
         dj_role_list_embed_title_enabled: string,
-        dj_role_list_embed_title_disabled: string
+        dj_role_list_embed_title_disabled: string,
 
         lang_invalid_id: string,
         lang_set: string,
 
-        lang_list_embed_title: string
-        lang_list_embed_field_ids: string
-        lang_list_embed_field_names: string
+        lang_list_embed_title: string,
+        lang_list_embed_field_ids: string,
+        lang_list_embed_field_names: string,
 
-        lang_reset: string
+        lang_reset: string,
 
         commands: {
 
