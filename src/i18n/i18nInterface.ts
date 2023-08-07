@@ -82,7 +82,7 @@ export default interface i18n {
         seeked: string,
         seeked_invalid: string,
 
-        dj_role_added:string,
+        dj_role_added: string,
         dj_role_removed: string,
         dj_role_already_added: string,
         dj_role_not_added: string,
@@ -108,7 +108,7 @@ export default interface i18n {
 
         lang_reset: string,
 
-        commands: {
+        commands: { // in the future we can implement command localizations
 
         }
     }
