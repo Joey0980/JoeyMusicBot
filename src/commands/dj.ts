@@ -11,7 +11,7 @@ export default class extends Command {
         let subCommandGroup = interaction.options.getSubcommandGroup();
 
         switch (subCommandGroup) {
-            case "role": {
+            case "roles": {
                 let subCommand = interaction.options.getSubcommand();
 
                 switch (subCommand) {
@@ -57,7 +57,7 @@ export default class extends Command {
                     }
                 }
             } break;
-            case "enforce": {
+            case "status": {
                 let subCommand = interaction.options.getSubcommand();
 
                 switch (subCommand) {
@@ -96,7 +96,7 @@ export default class extends Command {
     override options(): CommandOption[] {
         return [
             {
-                name: "role",
+                name: "roles",
                 description: "Edit roles",
                 type: ApplicationCommandOptionType.SubcommandGroup,
                 options: [
@@ -134,7 +134,7 @@ export default class extends Command {
                 ]
             },
             {
-                name: "enforce",
+                name: "status",
                 description: "DJ role status",
                 type: ApplicationCommandOptionType.SubcommandGroup,
                 options: [

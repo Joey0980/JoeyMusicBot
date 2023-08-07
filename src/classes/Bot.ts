@@ -44,7 +44,7 @@ function addOptions (option: CommandOption, cmd: SlashCommandBuilder | SlashComm
         case ApplicationCommandOptionType.Attachment:  { cmd.addAttachmentOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required ?? false));  break; }
         case ApplicationCommandOptionType.Boolean:     { cmd.addBooleanOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required ?? false));     break; }
         case ApplicationCommandOptionType.Channel:     { cmd.addChannelOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required ?? false));     break; }
-        case ApplicationCommandOptionType.Integer:     { cmd.addIntegerOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required ?? false));     break; }
+        case ApplicationCommandOptionType.Integer:     { cmd.addIntegerOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required ?? false).setAutocomplete(option.autoComplete ?? false));     break; }
         case ApplicationCommandOptionType.Mentionable: { cmd.addMentionableOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required ?? false)); break; }
         case ApplicationCommandOptionType.Role:        { cmd.addRoleOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required ?? false));        break; }
         case ApplicationCommandOptionType.User:        { cmd.addUserOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required ?? false));        break; }
@@ -53,7 +53,7 @@ function addOptions (option: CommandOption, cmd: SlashCommandBuilder | SlashComm
                 cmd.addStringOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required ?? false).addChoices(...<[]>option.choices));
             }
             else {
-                cmd.addStringOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required ?? false));
+                cmd.addStringOption(out => out.setName(option.name).setDescription(option.description).setRequired(option.required ?? false).setAutocomplete(option.autoComplete ?? false));
             }
             break;
         }
@@ -118,6 +118,7 @@ async function init(): Promise<void> {
         if (command.permissions().dmUsable) {
             cmd.setDMPermission(true);
         }
+
 
         if (command.permissions().permissions) {
             cmd.setDefaultMemberPermissions(command.permissions().permissions);
@@ -271,6 +272,7 @@ export interface CommandOption {
     description: string;
     required?: boolean;
     options?: CommandOption[];
+    autoComplete?: boolean;
     choices?: {
         name: string, value: string
     }[];
@@ -287,6 +289,8 @@ export interface CommandPermissions {
 
 export abstract class Command {
     abstract run(interaction: ChatInputCommandInteraction, bot: Bot, i18n: i18nInterface): Promise<void>;
+
+    //abstract runAutoComplete(interaction: AutocompleteInteraction, bot: Bot, i18n: i18nInterface): Promise<void>;
 
     abstract name(): string;
     abstract description(): string;
@@ -507,6 +511,14 @@ export class Bot {
                         });
                 } else {
                     interaction.reply({ content: i18n.default.base_interaction_object_not_found.replace('{interactionObject}', i18n.default.base_select_menu), ephemeral: true });
+                }
+            } else if (interaction.isAutocomplete()) {
+                const command: Undefinable<Command> = this.commands.find((command) => command.name() === interaction.commandName);
+
+                if (command) {
+
+                } else {
+                    return;
                 }
             }
         });
