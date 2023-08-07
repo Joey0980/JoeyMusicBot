@@ -1,0 +1,110 @@
+{
+  "localization_id": "ko-KR",
+  "localization_name": "한국어 (KR)",
+
+  "base_command_dj_only": "이 명령은 DJ만 사용 가능합니다.",
+  "base_command_dj_or_admin": "이 명령은 DJ나 관리자 권한이 있는 사용자만 사용 가능합니다.",
+  "base_interaction_object_not_found": "{interactionObject}를 찾을 수 없습니다.",
+  "base_interaction_error_occurred": "{interactionObject}를 실행하다가 오류가 발생했습니다.",
+
+  "base_button": "버튼",
+  "base_command": "명령",
+  "base_context_menu": "컨텍스트 메뉴",
+  "base_interaction": "상호작용",
+  "base_select_menu": "선택 메뉴",
+  "base_modal": "모달",
+
+  "base_cooldown": "명령을 실행하기 전에 **{remainingTime}** 더 기다리십시오.\n쿨다운: **{cooldown}**",
+
+  "vc_user_absent": "\uD83D\uDCA2 귀하가 음성 채널에 들어오지 않았습니다.",
+  "vc_user_different": "\uD83D\uDCA2 귀하가 봇이 있는 음성 채널과 일치하지 않습니다.",
+
+  "playing_song": "지금 재생 중: {song} \uD83C\uDFB6",
+  "stopped": "⏹️ 플레이어를 중지했습니다.",
+  "skipped": "⏭️ 지금 재생되는 곡을 건너뛰었습니다.",
+  "paused": "⏸️ 플레이어를 일시 중지했습니다. 계속 하고 싶으면 ``/pause``를 다시 입력하십시오.",
+  "unpaused": "▶️ 플레이어를 계속합니다.",
+  "search_no_results": "❓ 검색 결과가 없습니다: \n```{searchQuery}```",
+  "search_age_restricted": "\uD83D\uDCA2❌ 이 영상은 연령 제한이 설정됐으므로 18세 미만 채널에 재생할 수 없습니다.",
+  "missing_permissions": "봇에 음악 기능이 사용 가능한 권한이 없는 것 같습니다. 이 서버의 음성 채널에 연결하고 대화할 수 있게 확인해 주십시오.",
+  "no_songs": "대기열에 곡이 없습니다. \uD83D\uDEAB",
+  "all_users_gone": "모든 사용자들이 음성 채널을 나갔습니다. 플레이어는 중지됐습니다.",
+  "error_music": "음악을 재생하다가 오류가 발생했습니다. 잠시 후에 다시 시도해 보시고, 오류가 계속 발생하면 개발자에게 연락해 주십시오.",
+  "live": "\uD83D\uDD34 라이브",
+
+  "finished": "대기열에 있는 곡들을 전부 재생했습니다. \uD83D\uDCA0",
+  "cleared": "\uD83D\uDDD1️✅ 대기열을 제거했습니다.",
+
+  "previous": "⏪ 이전 곡을 재생합니다.",
+  "no_previous": "⏪ 이전 곡이 없습니다.",
+
+  "no_current_queue": "\uD83D\uDD07 지금 재생되는 음악이 없습니다.",
+  "queue_empty": "\uD83D\uDEAB 대기열이 비었습니다. ",
+  "queue_embed_title": "음악 대기열",
+  "queue_embed_description": "현재 재생 중:\n[{currentSongName}]({currentSongUrl}) ({currentSongFormattedDuration})",
+  "queue_embed_toomany": "\ndiff\n- 처음 {count}개의 노래만 표시됩니다 \n+ /export 명령어를 사용하여 전체 대기열을 내보낼 수 있습니다\n",
+  "queue_embed_upnexttitle": "다음 곡",
+  "queue_embed_footer_1": "대기열에 {queueLength}개 곡  •  ",
+  "queue_embed_footer_2": "{totalDuration} 총 길이",
+  "queue_embed_progress": "Progress",
+
+  "added_queue_embed_title": "✨ 대기열에 추가했습니다. \uD83C\uDFB6",
+  "added_queue_embed_footer": "대기열 위치: ",
+  "added_queue_embed_footer_nextup": "다음 곡",
+
+  "nowplaying_embed_description": "\n[{currentSongName}]({currentSongUrl}) ({currentSongFormattedDuration})",
+  "nowplaying_embed_title": "재생 중",
+
+  "joined": "✅ 음성 채널에 들어왔습니다.",
+  "already_joined": "\uD83D\uDCA2 이미 음성 채널에 있습니다.",
+  "left": "⏏️ 음성 채널에서 나갔습니다.",
+  "could_not_join": "❌ 음성 채널에 들어올 수 없습니다. 이 서버의 음성 채널에 연결하고 대화할 수 있게 확인해 주십시오.",
+
+  "volume_set": "{volumeEmoji} 음량을 {volume}로 설정합니다.",
+  "volume_syntax": "‼️ 음량을 100 이상 설정할 수 없습니다.",
+
+  "shuffled": "\uD83D\uDD00 대기열을 섞었습니다. ✅",
+  "shuffle_too_few": "❌ 대기열을 섞기 위해 3곡 이상이 필요합니다.",
+
+  "export_error": "⚠️ 추출하다가 오류가 발생했습니다. 개인 메시지가 활성화 되었는지 확인해 주십시오.",
+  "export_success": "✅ 대기열을 추출했습니다. 개인 메시지를 확인해 주세요.",
+  "export_embed_title": "대기열 정보 추출",
+  "export_embed_guild": "서버",
+  "export_embed_shard": "샤드ID",
+  "export_embed_date": "날짜",
+
+  "remove_invalid" : "❌ 잘못된 위치입니다.",
+  "remove_success" : "✅\uD83D\uDDD1 대기열 위치 {index}에 {song}를 제거했습니다.",
+
+  "filter_embed_title": "현재 사용 가능 필터",
+  "filter_invalid": "❌ 잘못된 필터입니다. 사용 가능한 필터를 찾기 위해 명령을 인수 없이 입력하십시오.",
+  "filter_off": "✅ 모든 필터가 해제되었습니다!",
+  "filter_applied": "✅ 필터를 설정합니다.",
+
+  "seeked": "⏩ {time}로 건너뜁니다.",
+  "seeked_invalid": "❌ 잘못된 시간입니다.",
+
+  "dj_role_added": "✅ <@&{roleId}>에 DJ 권한을 설정합니다.",
+  "dj_role_removed": "✅ <@&{roleId}>에 DJ 권한을 해제합니다.",
+  "dj_role_already_added": "\uD83D\uDCA2 <@&{roleId}>에 이미 DJ 권한이 있습니다.",
+  "dj_role_not_added": "\uD83D\uDCA2 <@&{roleId}>에 DJ 권한이 없습니다.",
+
+  "dj_requirement_enabled": "✅ DJ 권한을 필수로 설정합니다.",
+  "dj_requirement_disabled": "✅ DJ 권한 필수 설정을 해제합니다.",
+  "dj_requirement_already_enabled": "\uD83D\uDCA2 이미 DJ 권한을 필수로 설정됐습니다.",
+  "dj_requirement_already_disabled": "\uD83D\uDCA2 이미 DJ 권한 필수 설정이 안 되었습니다.",
+
+  "dj_role_list_empty": "아직 DJ 권한이 설정되지 않았습니다.",
+  "dj_role_list_preamble": "현재 DJ 권한:\n",
+  "dj_role_list_embed_title_enabled": "✅ DJ 권한 필수 설정됨",
+  "dj_role_list_embed_title_disabled": "❌ DJ 권한 필수 설정되지 않음",
+
+  "lang_invalid_id": "❌ 잘못된 언어 ID입니다.",
+  "lang_set": "✅ {lang} 언어로 설정됐습니다.",
+
+  "lang_list_embed_title": "사용 가능한 언어 (Available Languages)",
+  "lang_list_embed_field_ids": "언어 ID",
+  "lang_list_embed_field_names": "언어 이름",
+
+  "lang_reset": "✅ 기본값 언어로 리셋됐습니다."
+}
