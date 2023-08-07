@@ -1,0 +1,110 @@
+{
+  "localization_id": "pt-PT",
+  "localization_name": "Português (PT)",
+
+  "base_command_dj_only": "Este comando só pode ser usado por usuários com cargo DJ.",
+  "base_command_dj_or_admin": "Este comando só pode ser usado por usuários com cargo DJ, ou usuários com permissões de administrador.",
+  "base_interaction_object_not_found": "{interactionObject} não foi encontrado.",
+  "base_interaction_error_occurred": "Um erro ocorreu ao executar {interactionObject}.",
+
+  "base_button": "Botão",
+  "base_command": "Comando",
+  "base_context_menu": "Menu de Contexto",
+  "base_interaction": "Interação",
+  "base_select_menu": "Menu de Seleção",
+  "base_modal": "Modal",
+
+  "base_cooldown": "Tem que esperar **{remainingTime}**s para usar o comando novamente.\nTempo de espera: **{cooldown}**s",
+
+  "vc_user_absent": "\uD83D\uDCA2 Não estás num canal de voz.",
+  "vc_user_different": "\uD83D\uDCA2 Não estás no mesmo canal de voz que eu.",
+
+  "playing_song": "Agora a tocar: {song} \uD83C\uDFB6",
+  "stopped": "⏹️ Leitor de música parou.",
+  "skipped": "⏭️ Leitor de música pulou para a próxima música.",
+  "paused": "⏸️ Leitor de música pausou. Pode usar ``/pause`` para retomar.",
+  "unpaused": "▶️ Retomou o leitor de música.",
+  "search_no_results": "❓ Nenhum resultado encontrado: \n```{searchQuery}```",
+  "search_age_restricted": "\uD83D\uDCA2❌ Este vídeo tem restrição de idade e portanto o áudio não pode ser tocado num canal que não esteja marcado com essa mesma restrição.",
+  "missing_permissions": "Parece-me que eu não tenho as permissões necessárias para tocar música. É melhor verificar se eu tenho as permissões \"Conectar\", \"Falar\" e \"Ver canais\", estes incluindo os de voz.",
+  "no_songs": "Não há nenhuma música na fila de reprodução. \uD83D\uDEAB",
+  "all_users_gone": "Não há ninguém no canal de voz. O leitor de música parou automaticamente.",
+  "error_music": "Ocorreu um erro ao tentar tocar a música. Tente novamente mais tarde, e se este erro continuar a aparecer, contacte o desenvolvedor.",
+  "live": "\uD83D\uDD34 NO AR",
+
+  "finished": "A fila de reprodução acabou. \uD83D\uDCA0",
+  "cleared": "\uD83D\uDDD1️✅ A fila de reprodução foi zerada.",
+
+  "previous": "⏪ A tocar a música anterior.",
+  "no_previous": "⏪ Não existe uma música anterior para tocar.",
+
+  "no_current_queue": "\uD83D\uDD07 Neste momento, não está a tocar nenhuma música.",
+  "queue_empty": "\uD83D\uDEAB A fila de reprodução está vazia. ",
+  "queue_embed_title": "Fila de Reprodução",
+  "queue_embed_description": "Agora a tocar:\n[{currentSongName}]({currentSongUrl}) ({currentSongFormattedDuration})",
+  "queue_embed_toomany": "\n```diff\n- Só a mostrar as primeiras {count} músicas \n+ Podes usar o comando /export para exportar a fila de reprodução inteira.\n```",
+  "queue_embed_upnexttitle": "A seguir",
+  "queue_embed_footer_1": "{queueLength} músicas na fila de reprodução  •  ",
+  "queue_embed_footer_2": "{totalDuration} duração total",
+  "queue_embed_progress": "Progresso",
+
+  "added_queue_embed_title": "✨ Música foi adicionada à fila. \uD83C\uDFB6",
+  "added_queue_embed_footer": "Posição na fila de reprodução:",
+  "added_queue_embed_footer_nextup": "Já a seguir para tocar!",
+
+  "nowplaying_embed_description": "\n[{currentSongName}]({currentSongUrl}) ({currentSongFormattedDuration})",
+  "nowplaying_embed_title": "Agora a tocar",
+
+  "joined": "✅ Entrei no canal de voz.",
+  "already_joined": "\uD83D\uDCA2 Eu já estou num canal de voz!",
+  "left": "⏏️ Saí do canal de voz.",
+  "could_not_join": "❌ Não consegui entrar no canal de voz. É melhor verificar se eu tenho as permissões necessárias para entrar e falar num canal de voz.",
+
+  "volume_set": "{volumeEmoji} Volume alterado para {volume}.",
+  "volume_syntax": "‼️ O volume não pode ser maior do que 100.",
+
+  "shuffled": "\uD83D\uDD00 . ✅ A fila de reprodução foi embaralhada com sucesso.",
+  "shuffle_too_few": "❌ Precisas de pelo menos 4 músicas para embaralhar a fila de reprodução.",
+
+  "export_error": "⚠️ Erro ao exportar. É melhor verificar se tem Mensagens Diretas (DM) ativas no servidor.",
+  "export_success": "✅ A fila de reprodução foi exportada nas suas Mensagens Diretas (DM) com sucesso.",
+  "export_embed_title": "Dados de Exportação da Fila de Reprodução",
+  "export_embed_guild": "Servidor",
+  "export_embed_shard": "ShardId",
+  "export_embed_date": "Data",
+
+  "remove_invalid" : "❌ Índice inválido.",
+  "remove_success" : "✅\uD83D\uDDD1 {song} foi removida da fila de reprodução no índice {index}.",
+
+  "filter_embed_title": "Filtros disponíveis atualmente",
+  "filter_invalid": "❌ Filtro inválido. Podes usar o comando sem nenhum argumento para teres uma lista de filtros disponíveis.",
+  "filter_off": "✅ Todos os filtros foram desativados!",
+  "filter_applied": "✅ O filtro foi aplicado.",
+
+  "seeked": "⏩ Mudou para {time}.",
+  "seeked_invalid": "❌ Tempo invalido.",
+
+  "dj_role_added": "✅ Adicionou ao <@&{roleId}> o cargo DJ.",
+  "dj_role_removed": "✅ Tirou ao <@&{roleId}> o cargo DJ.",
+  "dj_role_already_added": "\uD83D\uDCA2 <@&{roleId}> já tem o cargo DJ.",
+  "dj_role_not_added": "\uD83D\uDCA2 <@&{roleId}> não possuí nenhum cargo DJ.",
+
+  "dj_requirement_enabled": "✅ Ativou o requerimento do cargo DJ.",
+  "dj_requirement_disabled": "✅ Desativou o requerimento do cargo DJ.",
+  "dj_requirement_already_enabled": "\uD83D\uDCA2 O requerimento do cargo DJ já está ativo.",
+  "dj_requirement_already_disabled": "\uD83D\uDCA2 O requerimento do cargo DJ já está desativado.",
+
+  "dj_role_list_empty": "Não há nenhum cargo DJ.",
+  "dj_role_list_preamble": "Cargos DJ:\n",
+  "dj_role_list_embed_title_enabled": "✅ Requerimento do cargo DJ ativo",
+  "dj_role_list_embed_title_disabled": "❌ Requerimento do cargo DJ desativado",
+
+  "lang_invalid_id": "❌ ID de linguagem inválido.",
+  "lang_set": "✅ Alterou a linguagem para {lang} com sucesso.",
+
+  "lang_list_embed_title": "Linguagens disponíveis",
+  "lang_list_embed_field_ids": "Identificador de linguagens",
+  "lang_list_embed_field_names": "Nome da linguagem",
+
+  "lang_reset": "✅ Alterou para a linguagem padrão com sucesso."
+}
